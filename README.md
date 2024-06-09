@@ -1,0 +1,2 @@
+# Answers_Japanese_markdown_for_Git
+独習Gitの章末課題の回答の日本語訳
