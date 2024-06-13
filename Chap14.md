@@ -303,10 +303,12 @@ f243f91 (HEAD -> master, origin/master, origin/HEAD) /home/rick/work/math のブ
 ```
 % git rev-parse FETCH_HEAD
 f243f91c5eaed9f4ef076218a23768720ce484a0
-
+```
+```
 % git rev-parse master
 f243f91c5eaed9f4ef076218a23768720ce484a0
-
+```
+```
 % git merge FETCH_HEAD
 Already up to date.
 ```
@@ -317,7 +319,8 @@ However, if we change our branch, the FETCH_HEAD stays the same!
 % git checkout new_feature
 Branch 'new_feature' set up to track remote branch 'new_feature' from 'origin'.
 Switched to a new branch 'new_feature'
-
+```
+```
 % git rev-parse FETCH_HEAD
 f243f91c5eaed9f4ef076218a23768720ce484a0
 ```
@@ -326,17 +329,21 @@ To see FETCH_HEAD change, we have to do a git fetch again. Let’s go over it in
 
 ```
 % cd ../math.bill
-
+```
+```
 % git checkout new_feature
 Switched to branch 'new_feature'
 Your branch is up to date with 'origin/new_feature'.
-
+```
+```
 % echo "small change" >> readme.txt
-
+```
+```
 % git commit -a -m "small change to readme 2"
 [new_feature 534de35] small change to readme 2
 1 file changed, 1 insertion(+)
-
+```
+```
 % git push
 Counting objects: 3, done.
 Delta compression using up to 2 threads.
@@ -345,9 +352,11 @@ Writing objects: 100% (3/3), 306 bytes | 306.00 KiB/s, done.
 Total 3 (delta 1), reused 0 (delta 0)
 To /home/rick/work/math.git
 4a0ef84..534de35 new_feature -> new_feature
-
+```
+```
 % cd ../math.carol/
-
+```
+```
 % git fetch
 remote: Counting objects: 3, done.
 remote: Compressing objects: 100% (3/3), done.
@@ -355,16 +364,19 @@ remote: Total 3 (delta 1), reused 0 (delta 0)
 Unpacking objects: 100% (3/3), done.
 From /home/rick/work/math
 4a0ef84..534de35 new_feature -> origin/new_feature
-
+```
+```
 % git rev-parse FETCH_HEAD
 534de35ace4c11ae118eee807376e863d5662dcf
 This time, git fetch caused FETCH_HEAD to change.
-
+```
+```
 % git checkout another_fix_branch
 Branch 'another_fix_branch' set up to track remote branch 'another_fix_branch' \
 from 'origin'.
 Switched to a new branch 'another_fix_branch'
-
+```
+```
 % git branch
 * another_fix_branch
 master
@@ -375,27 +387,35 @@ Let’s commit a few more changes on math.bill, and perform a git push.
 
 ```
 % cd ../math.bill/
-
+```
+```
 % git branch
 another_fix_branch
 master
 * new_feature
-
+```
+```
 % echo "small change" >> readme.txt
-
+```
+```
 % git commit -a -m "small change to readme 3"
 [new_feature 2fd390d] small change to readme 3
 1 file changed, 1 insertion(+)
+```
+```
 % git checkout another_fix_branch
 Switched to branch 'another_fix_branch'
 Your branch is up to date with 'origin/another_fix_branch'.
-
+```
+```
 % echo "small change" >> readme.txt
-
+```
+```
 % git commit -a -m "small change to readme 3"
 [another_fix_branch b038c52] small change to readme 3
 1 file changed, 1 insertion(+)
-
+```
+```
 % git push --all
 Counting objects: 37, done.
 Delta compression using up to 2 threads.
@@ -407,8 +427,8 @@ To /home/rick/work/math.git
 8b50a49..b038c52 another_fix_branch -> another_fix_branch
 ! [rejected] master -> master (fetch first)
 error: failed to push some refs to '/home/rick/work/math.git'
-
 ```
+
 As before, we saw the warning about master (“fetch first”). Now let’s go back to math.carol, and do
 git fetch.
 
@@ -417,7 +437,8 @@ git fetch.
 * another_fix_branch
 master
 new_feature
-
+```
+```
 % git fetch
 remote: Counting objects: 5, done.
 remote: Compressing objects: 100% (5/5), done.
@@ -426,7 +447,8 @@ Unpacking objects: 100% (5/5), done.
 From /home/rick/work/math
 8b50a49..b038c52 another_fix_branch -> origin/another_fix_branch
 534de35..2fd390d new_feature -> origin/new_feature
-
+```
+```
 % git rev-parse FETCH_HEAD
 b038c52d42a6e0b6f4512bba3e33ecec1cc52ed3
 ```
@@ -438,13 +460,16 @@ In the math.carol repository, doing a git fetch will update the FETCH_HEAD of th
 Switched to branch 'new_feature'
 Your branch is behind 'origin/new_feature' by 2 commits, and can be fast-forwarded.
 (use "git pull" to update your local branch)
-
+```
+```
 % git rev-parse FETCH_HEAD
 b038c52d42a6e0b6f4512bba3e33ecec1cc52ed3
 FETCH_HEAD didn’t change! But we can update it by running git fetch one more time.
-
+```
+```
 % git fetch
-
+```
+```
 % git rev-parse FETCH_HEAD
 2fd390deb908e19165a1d218775e7fafc1725778
 ```
@@ -457,22 +482,27 @@ This strikes me as an interesting behavior, and something to watch out for!
 % git checkout master
 Switched to branch 'master'
 Your branch is up to date with 'origin/master'.
-
+```
+```
 % git remote
 origin
-
+```
+```
 % git remote -v show
 origin /home/rick/work/math.git (fetch)
 origin /home/rick/work/math.git (push)
-
+```
+```
 % git remote add bill ../math.bill
-
+```
+```
 % git remote -v show
 bill ../math.bill (fetch)
 bill ../math.bill (push)
 origin /home/rick/work/math.git (fetch)
 origin /home/rick/work/math.git (push)
-
+```
+```
 % git branch --set-upstream-to=bill/master
 error: the requested upstream branch 'bill/master' does not exist
 hint:
@@ -523,7 +553,8 @@ From ../math.bill
 * [new branch] another_fix_branch -> bill/another_fix_branch
 * [new branch] master -> bill/master
 * [new branch] new_feature -> bill/new_feature
-
+```
+```
 % git branch --all
 another_fix_branch
 * master
@@ -535,10 +566,12 @@ remotes/origin/HEAD -> origin/master
 remotes/origin/another_fix_branch
 remotes/origin/master
 remotes/origin/new_feature
-
+```
+```
 % git branch --set-upstream-to=bill/master
 Branch 'master' set up to track remote branch 'master' from 'bill'.
-
+```
+```
 % git branch -vv
 another_fix_branch 8b50a49 [origin/another_fix_branch: behind 1] small change to readme
 * master f243f91 [bill/master: behind 2] Merge branch 'master' of /home/rick/work/math
@@ -550,6 +583,8 @@ The implication of math.carol having a separate remote pointing to math.bill is 
 ```
 % git branch --set-upstream-to=origin/master
 Branch 'master' set up to track remote branch 'master' from 'origin'.
+```
+```
 % git branch -vv
 another_fix_branch 8b50a49 [origin/another_fix_branch: behind 1] small change to readme
 * master f243f91 [origin/master] Merge branch 'master' of /home/rick/work/math
@@ -561,12 +596,14 @@ new_feature 4a0ef84 [origin/new_feature: behind 2] small change to readme
 ```
 % git rev-parse new_feature
 4a0ef848e2fd71d9579c7765fcb6224ba93b23d3
-
+```
+```
 % git merge new_feature
 Auto-merging readme.txt
 CONFLICT (content): Merge conflict in readme.txt
 Automatic merge failed; fix conflicts and then commit the result.
-
+```
+```
 % cat readme.txt
 This is a README file. Enjoy.
 <<<<<<< HEAD
@@ -574,18 +611,22 @@ A small update.
 =======
 small change
 >>>>>>> new_feature
-
+```
+```
 % git merge --abort
 We now abandon this merge, and try a merge using the remote tracking branch origin/new_feature directly.
-
+```
+```
 % git rev-parse origin/new_feature
 2fd390deb908e19165a1d218775e7fafc1725778
-
+```
+```
 % git merge origin/new_feature
 Auto-merging readme.txt
 CONFLICT (content): Merge conflict in readme.txt
 Automatic merge failed; fix conflicts and then commit the result.
-
+```
+```
 % cat readme.txt
 This is a README file. Enjoy.
 <<<<<<< HEAD
@@ -595,7 +636,8 @@ small change
 small change
 small change
 >>>>>>> origin/new_feature
-
+```
+```
 % git merge --abort
 ```
 
@@ -607,7 +649,8 @@ To create a new branch with the origin/new_feature remote branch, you could do:
 % git checkout -b new_new origin/new_feature
 Branch 'new_new' set up to track remote branch 'new_feature' from 'origin'.
 Switched to a new branch 'new_new'
-
+```
+```
 % git branch -vv
 another_fix_branch 8b50a49 [origin/another_fix_branch: behind 1] small change to readme
 master f243f91 [origin/master] Merge branch 'master' of /home/rick/work/math
@@ -623,10 +666,12 @@ new_feature, and make a new branch from that using the technique from Chapter 9.
 Switched to branch 'new_feature'
 Your branch is behind 'origin/new_feature' by 2 commits, and can be fast-forwarded.
 (use "git pull" to update your local branch)
-
+```
+```
 % git checkout -b new_new_new
 Switched to a new branch 'new_new_new'
-
+```
+```
 % git branch -vv
 another_fix_branch 8b50a49 [origin/another_fix_branch: behind 1] small change to readme
 master f243f91 [origin/master] Merge branch 'master' of /home/rick/work/math
@@ -641,7 +686,8 @@ This newest branch doesn’t have an upstream, but when you push new_new_new to 
 
 ```
 % cd $HOME/math.carol
- 
+```
+``` 
 % cat .git/FETCH_HEAD
 f243f91c5eaed9f4ef076218a23768720ce484a0 branch 'master' of
 /home/rick/work/math
