@@ -1,6 +1,6 @@
 ## Chapter 14
 
-### 1. この練習の意図は、14.2.2項のようにgit mergeを使うことです。
+### 1. この課題の意図は、14.2.2項のようにgit mergeを使うことです。
 
 ```
 % git merge FETCH_HEAD
