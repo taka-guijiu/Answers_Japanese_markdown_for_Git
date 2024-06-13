@@ -298,7 +298,7 @@ f243f91 (HEAD -> master, origin/master, origin/HEAD) /home/rick/work/math のブ
 ... ログ行省略 ...
 ```
 
-### 3. FETCH_HEAD changes to match the current branch’s remote tracking branch. If you continue from the last exercise, you’ll see that FETCH_HEAD’s SHA1 ID matches master. There’s no merge possible, since master didn’t change.
+### 3. FETCH_HEAD は、現在のブランチのリモート追跡ブランチと一致するように変更されます。前回の練習から続けると、FETCH_HEAD の SHA1 ID が master と一致することがわかります。master は変更されていないので、マージはできません。
 
 ```
 % git rev-parse FETCH_HEAD
@@ -311,21 +311,26 @@ f243f91c5eaed9f4ef076218a23768720ce484a0
 ```
 % git merge FETCH_HEAD
 Already up to date.
+＜和訳＞
+すでに最新だ。
 ```
 
-However, if we change our branch, the FETCH_HEAD stays the same!
+しかし、ブランチを変更しても、FETCH_HEADは変わらない！
 
 ```
 % git checkout new_feature
 Branch 'new_feature' set up to track remote branch 'new_feature' from 'origin'.
 Switched to a new branch 'new_feature'
+＜和訳＞
+ブランチ 'new_feature' は、'origin' からのリモートブランチ 'new_feature' を追跡するように設定されました。
+新しいブランチ 'new_feature' に切り替わった
 ```
 ```
 % git rev-parse FETCH_HEAD
 f243f91c5eaed9f4ef076218a23768720ce484a0
 ```
 
-To see FETCH_HEAD change, we have to do a git fetch again. Let’s go over it in detail.
+FETCH_HEADの変更を見るには、もう一度git fetchをする必要があります。詳しく見ていきましょう。
 
 ```
 % cd ../math.bill
@@ -334,6 +339,9 @@ To see FETCH_HEAD change, we have to do a git fetch again. Let’s go over it in
 % git checkout new_feature
 Switched to branch 'new_feature'
 Your branch is up to date with 'origin/new_feature'.
+＜和訳＞
+ブランチ 'new_feature' に切り替えました。
+ブランチが 'origin/new_feature' に更新されました。
 ```
 ```
 % echo "small change" >> readme.txt
@@ -369,12 +377,17 @@ From /home/rick/work/math
 % git rev-parse FETCH_HEAD
 534de35ace4c11ae118eee807376e863d5662dcf
 This time, git fetch caused FETCH_HEAD to change.
+＜和訳＞
+今回、git fetchによってFETCH_HEADが変更された。
 ```
 ```
 % git checkout another_fix_branch
 Branch 'another_fix_branch' set up to track remote branch 'another_fix_branch' \
 from 'origin'.
 Switched to a new branch 'another_fix_branch'
+＜和訳＞
+ブランチ 'another_fix_branch' が 'origin' からのリモートブランチ 'another_fix_branch' を追跡するように設定されました。
+新しいブランチ 'another_fix_branch' に切り替わりました。
 ```
 ```
 % git branch
@@ -383,7 +396,7 @@ master
 new_feature
 ```
 
-Let’s commit a few more changes on math.bill, and perform a git push.
+math.billの変更をもう少しコミットして、git pushを実行しよう。
 
 ```
 % cd ../math.bill/
@@ -406,6 +419,9 @@ master
 % git checkout another_fix_branch
 Switched to branch 'another_fix_branch'
 Your branch is up to date with 'origin/another_fix_branch'.
+＜和訳＞
+ブランチ 'another_fix_branch' に切り替えました。
+ブランチが 'origin/another_fix_branch' に更新されました。
 ```
 ```
 % echo "small change" >> readme.txt
@@ -427,10 +443,11 @@ To /home/rick/work/math.git
 8b50a49..b038c52 another_fix_branch -> another_fix_branch
 ! [rejected] master -> master (fetch first)
 error: failed to push some refs to '/home/rick/work/math.git'
+＜和訳＞
+error: '/home/rick/work/math.git' への参照のプッシュに失敗しました。
 ```
 
-As before, we saw the warning about master (“fetch first”). Now let’s go back to math.carol, and do
-git fetch.
+前回と同様、masterに関する警告（「fetch first」）が表示されました。では、math.carolに戻ってgit fetchしてみましょう。
 
 ```
 % git branch
@@ -453,18 +470,25 @@ From /home/rick/work/math
 b038c52d42a6e0b6f4512bba3e33ecec1cc52ed3
 ```
 
-In the math.carol repository, doing a git fetch will update the FETCH_HEAD of the current branch that we’re on (another_fix_branch). What happens when we switch to the other branch that has changes?
+math.carol リポジトリで git fetch を実行すると、現在いるブランチ (another_fix_branch) の FETCH_HEAD が更新されます。変更を加えた別のブランチに切り替えるとどうなるでしょうか?
 
 ```
 % git checkout new_feature
 Switched to branch 'new_feature'
 Your branch is behind 'origin/new_feature' by 2 commits, and can be fast-forwarded.
 (use "git pull" to update your local branch)
+＜和訳＞
+ブランチ 'new_feature' に切り替えました。
+あなたのブランチは 'origin/new_feature' から 2 コミット遅れています。またfast-forwardできます。
+(ローカルブランチを更新するには "git pull" を使用します)。
+
 ```
 ```
 % git rev-parse FETCH_HEAD
 b038c52d42a6e0b6f4512bba3e33ecec1cc52ed3
 FETCH_HEAD didn’t change! But we can update it by running git fetch one more time.
+＜和訳＞
+FETCH_HEADは変わっていない！しかし、もう一度 git fetch を実行すれば更新できます。
 ```
 ```
 % git fetch
@@ -474,7 +498,7 @@ FETCH_HEAD didn’t change! But we can update it by running git fetch one more t
 2fd390deb908e19165a1d218775e7fafc1725778
 ```
 
-This strikes me as an interesting behavior, and something to watch out for!
+これは興味深い行動であり、注意すべきことだと思う！
 
 ### 4. This is more of a thought experiment, but performing these commands will make it more clear what is happening. Once you get into the math.carol repository, type the following:
 
