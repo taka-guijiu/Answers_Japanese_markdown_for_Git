@@ -362,7 +362,7 @@ To /home/rick/work/math.git
 4a0ef84..534de35 new_feature -> new_feature
 ```
 ```
-% cd ../math.carol/
+% cd ../math.carol
 ```
 ```
 % git fetch
@@ -376,10 +376,8 @@ From /home/rick/work/math
 ```
 % git rev-parse FETCH_HEAD
 534de35ace4c11ae118eee807376e863d5662dcf
-This time, git fetch caused FETCH_HEAD to change.
-＜和訳＞
-今回、git fetchによってFETCH_HEADが変更された。
 ```
+今回、git fetchによってFETCH_HEADが変更された。
 ```
 % git checkout another_fix_branch
 Branch 'another_fix_branch' set up to track remote branch 'another_fix_branch' \
@@ -399,7 +397,7 @@ new_feature
 math.billの変更をもう少しコミットして、git pushを実行しよう。
 
 ```
-% cd ../math.bill/
+% cd ../math.bill
 ```
 ```
 % git branch
@@ -500,12 +498,15 @@ FETCH_HEADは変わっていない！しかし、もう一度 git fetch を実�
 
 これは興味深い行動であり、注意すべきことだと思う！
 
-### 4. This is more of a thought experiment, but performing these commands will make it more clear what is happening. Once you get into the math.carol repository, type the following:
+### 4. これは思考実験のようなものだが、これらのコマンドを実行することで、何が起きているのかがより明確になるだろう。math.carolリポジトリに入ったら、次のようにタイプする：
 
 ```
 % git checkout master
 Switched to branch 'master'
 Your branch is up to date with 'origin/master'.
+＜和訳＞
+ブランチを 'master' に切り替えました。
+ブランチが 'origin/master' に更新されました。
 ```
 ```
 % git remote
@@ -537,9 +538,15 @@ hint:
 hint: If you are planning to push out a new local branch that
 hint: will track its remote counterpart, you may want to use
 hint: "git push -u" to set the upstream config as you push.
+＜和訳＞
+error: 要求されたアップストリームブランチ 'bill/master' が存在しません。
+hint:
+ヒント: すでにリモートに存在するアップストリームブランチをベースに作業を進める場合は、"git fetch "を実行してブランチを取得する必要があるかもしれません。
+hint:
+ヒント: リモートブランチを追跡する新しいローカルブランチをプッシュする場合は、"git push -u" を使用してプッシュ時にアップストリームの設定を行うことができます。
 ```
 
-In the current edition of the book, I forgot one command before using the --set-upstream-to switch: git fetch bill. Running this git fetch will bring in the remote tracking branches for the remote named bill. The error message from the git branch helpfully suggests this. To study the branches and remotes before git fetch, your session might look like this:
+この本の現行版では、-set-upstream-toスイッチを使う前に1つだけコマンドを忘れていました：git fetch billです。この git fetch を実行すると、bill という名前のリモートのトラッキングブランチが表示されます。git ブランチのエラーメッセージが、このことを教えてくれます。git fetch の前にブランチとリモートを調べるには、セッションを次のようにします：
 
 ```
 % git branch --all
@@ -550,7 +557,8 @@ remotes/origin/HEAD -> origin/master
 remotes/origin/another_fix_branch
 remotes/origin/master
 remotes/origin/new_feature
-
+```
+```
 % git branch -vv
 another_fix_branch 10db974 [origin/another_fix_branch] Small change
 * master 97d4104 [origin/master] Added a new line
@@ -568,6 +576,8 @@ Local refs configured for 'git push':
 another_fix_branch pushes to another_fix_branch (local out of date)
 master pushes to master (local out of date)
 new_feature pushes to new_feature (local out of date)
+```
+```
 % git fetch bill
 remote: Counting objects: 5, done.
 remote: Compressing objects: 100% (5/5), done.
@@ -594,19 +604,25 @@ remotes/origin/new_feature
 ```
 % git branch --set-upstream-to=bill/master
 Branch 'master' set up to track remote branch 'master' from 'bill'.
+＜和訳＞
+ブランチ 'master' は 'bill' からのリモートブランチ 'master' を追跡するように設定されています。
 ```
 ```
 % git branch -vv
 another_fix_branch 8b50a49 [origin/another_fix_branch: behind 1] small change to readme
 * master f243f91 [bill/master: behind 2] Merge branch 'master' of /home/rick/work/math
 new_feature 4a0ef84 [origin/new_feature: behind 2] small change to readme
+＜和訳＞
+
 ```
 
-The implication of math.carol having a separate remote pointing to math.bill is that the users of these two repositories can share work between each other without going through the centralized math.git repository. Chapter 12.1.3 discusses this situation, but now that we know about git push and git pull, you can really explore this situation. Don’t forget to reset the upstream after experimenting.
+math.carol が math.bill を指す独立したリモートを持つことの意味は、これら 2 つのリポジトリのユーザーが、一元化された math.git リポジトリを経由せずにお互いの作業を共有できるということです。第12.1.3章ではこの状況について説明しますが、git pushとgit pullについてわかったので、この状況を実際に調べてみましょう。実験が終わったら、アップストリームをリセットすることを忘れないでください。
 
 ```
 % git branch --set-upstream-to=origin/master
 Branch 'master' set up to track remote branch 'master' from 'origin'.
+＜和訳＞
+ブランチ 'master' は、'origin' からのリモートブランチ 'master' を追跡するように設定されています。
 ```
 ```
 % git branch -vv
@@ -615,7 +631,7 @@ another_fix_branch 8b50a49 [origin/another_fix_branch: behind 1] small change to
 new_feature 4a0ef84 [origin/new_feature: behind 2] small change to readme
 ```
 
-### 5. This merge exercise shows that you can use the remote tracking branches directly. First, let’s attempt a merge from the new_feature branch.
+### 5. このマージの練習は、リモートトラッキングブランチを直接使えることを示しています。まずは new_feature ブランチからのマージを試してみましょう。
 
 ```
 % git rev-parse new_feature
@@ -626,6 +642,9 @@ new_feature 4a0ef84 [origin/new_feature: behind 2] small change to readme
 Auto-merging readme.txt
 CONFLICT (content): Merge conflict in readme.txt
 Automatic merge failed; fix conflicts and then commit the result.
+＜和訳＞
+コンフリクト（内容）： readme.txtのコンフリクトのマージ
+コンフリクトを修正してから結果をコミットしてください。
 ```
 ```
 % cat readme.txt
@@ -639,6 +658,8 @@ small change
 ```
 % git merge --abort
 We now abandon this merge, and try a merge using the remote tracking branch origin/new_feature directly.
+＜和訳＞
+私たちはこのマージを断念し、リモート追跡ブランチ origin/new_feature を使って直接マージを試みます。
 ```
 ```
 % git rev-parse origin/new_feature
@@ -649,6 +670,9 @@ We now abandon this merge, and try a merge using the remote tracking branch orig
 Auto-merging readme.txt
 CONFLICT (content): Merge conflict in readme.txt
 Automatic merge failed; fix conflicts and then commit the result.
+＜和訳＞
+コンフリクト（内容）： readme.txtのコンフリクトのマージ
+コンフリクトを修正してから結果をコミットしてください。
 ```
 ```
 % cat readme.txt
@@ -665,14 +689,17 @@ small change
 % git merge --abort
 ```
 
-The branches new_feature and origin/new_feature are different, because we haven’t sync’d them with a git fetch then git merge in the new_feature branch. This section had us using the git merge --abort, which was introduced in Chapter 10.3.4.
+ブランチ new_feature と origin/new_feature は異なるものです。なぜなら、new_feature ブランチでは git fetch で同期させてから git merge していないからです。このセクションでは、第 10.3.4 章で紹介した git merge --abort を使用しました。
 
-To create a new branch with the origin/new_feature remote branch, you could do:
+origin/new_featureリモートブランチで新しいブランチを作成するには、次のようにする：
 
 ```
 % git checkout -b new_new origin/new_feature
 Branch 'new_new' set up to track remote branch 'new_feature' from 'origin'.
 Switched to a new branch 'new_new'
+＜和訳＞
+ブランチ 'new_new' が 'origin' からのリモートブランチ 'new_feature' を追跡するように設定されました。
+新しいブランチ 'new_new' に切り替わりました。
 ```
 ```
 % git branch -vv
@@ -682,18 +709,23 @@ new_feature 4a0ef84 [origin/new_feature: behind 2] small change to readme
 * new_new 2fd390d [origin/new_feature] small change to readme 3
 ```
 
-These two local branches (new_feature and new_new) now have the same upstream of origin/new_feature. This can be confusing! The safer, more clearer way is to git checkout
-new_feature, and make a new branch from that using the technique from Chapter 9.3.1.
+これら2つのローカルブランチ（new_featureとnew_new）は現在、origin/new_featureという同じ上流を持ちます。これは混乱を招く可能性があります！より安全でわかりやすい方法は、git checkout で new_feature をチェックアウトし、そこから新しいブランチを作成することです。
 
 ```
 % git checkout new_feature
 Switched to branch 'new_feature'
 Your branch is behind 'origin/new_feature' by 2 commits, and can be fast-forwarded.
 (use "git pull" to update your local branch)
+＜和訳＞
+ブランチ 'new_feature' に切り替えました。
+あなたのブランチは 'origin/new_feature' から 2 コミット遅れています。
+(ローカルブランチを更新するには "git pull" を使用します)。
 ```
 ```
 % git checkout -b new_new_new
 Switched to a new branch 'new_new_new'
+＜和訳＞
+新しいブランチ 'new_new_new' に切り替えた。
 ```
 ```
 % git branch -vv
@@ -702,11 +734,13 @@ master f243f91 [origin/master] Merge branch 'master' of /home/rick/work/math
 new_feature 4a0ef84 [origin/new_feature: behind 2] small change to readme
 new_new 2fd390d [origin/new_feature] small change to readme 3
 * new_new_new 4a0ef84 small change to readme
+＜和訳＞
+
 ```
 
-This newest branch doesn’t have an upstream, but when you push new_new_new to origin, it will be set properly. Give that a try!
+この最新ブランチにはアップストリームがありませんが、new_new_newをオリジンにプッシュすると正しく設定されます。試してみてください！
 
-### 6. To look at the contents of FETCH_HEAD, use ‘cat’. Your session would look like this:
+### 6. FETCH_HEADの内容を見るには、'cat'を使う。セッションは次のようになる：
 
 ```
 % cd $HOME/math.carol
@@ -721,4 +755,4 @@ b038c52d42a6e0b6f4512bba3e33ecec1cc52ed3 not-for-merge branch
 'new_feature' of /home/rick/work/math
 ```
 
-I don’t have any commentary on FETCH_HEAD’s contents. Clearly Git is using the data inside to present choices to us, but those details are hidden, unless you read Git’s source code.
+FETCH_HEADの中身についてのコメントはありません。Gitが内部のデータを使って私たちに選択肢を提示しているのは明らかですが、Gitのソースコードを読まない限り、その詳細は隠されています。
